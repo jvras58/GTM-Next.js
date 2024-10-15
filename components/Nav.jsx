@@ -12,6 +12,30 @@ const links = [
     name: "serviços",
     path: "/servicos",
     },
+    {
+    name: "Aposta Ganha",
+    path: "/apostaganha",
+    },
+    {
+    name: "BetEu",
+    path: "/bateu",
+    },
+    {
+    name: "Betinha",
+    path: "/betinha",
+    },
+    {
+    name: "Estrela-Bet",
+    path: "/estrelabet",
+    },
+    {
+    name: "Jogo de Ouro",
+    path: "/jogodeouro",
+    },
+    {
+    name: "Bet Nacional",
+    path: "/betnacional",
+    },
 ]
 
 const Nav = () => {
