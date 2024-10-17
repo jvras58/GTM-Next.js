@@ -1,44 +1,28 @@
 "use client"
 
-import BetIframe from "@/components/BetIframe";
-import {
-Card,
-CardHeader,
-CardTitle,
-CardContent,
-CardFooter,
-} from "@/components/ui/card";
+import BetCard from "@/components/BetIframe";
+import photo from "@/public/assets/photo.png"
 
 
-const betsList = [
-    { url: "https://betinha.com", title: "Betinha" },
-    { url: "https://estrelabet.com", title: "Estrela - Bet" },
-    { url: "https://jogodeouro.bet", title: "Jogo de Ouro" },
-    { url: "https://betnacional.com", title: "Bet Nacional" },
-    { url: "https://bateu.bet", title: "Bet EU" },
-    { url: "https://apostaganha.bet", title: "Aposta Ganha" },
-
-];
-
-
-const BetsPage = () => {
+const Bet = () => {
 return (
-    <div>
-    {betsList.map((bet, index) => (
-        <Card key={index}>
-        <CardHeader>
-            <CardTitle>{bet.title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-            <BetIframe url={bet.url} title={bet.title} />
-        </CardContent>
-        <CardFooter>
-            {/* Adicione qualquer conteúdo adicional para o rodapé do card aqui */}
-        </CardFooter>
-        </Card>
-    ))}
+    <div className="grid gap-4 grid-cols-1 md:grid-cols-3 p-6">
+    <BetCard
+        name="Betinha"
+        image={photo.src}
+        iframeUrl="https://www.betinha.com"
+    />
+    <BetCard
+        name="Estrela - Bet"
+        image={photo.src}
+        iframeUrl="https://www.estrelabet.com"
+    />
+    <BetCard
+        name="Jogo de Ouro"
+        image={photo.src}
+        iframeUrl="https://www.jogodeouro.com"
+    />
     </div>
-  );
-};
-
-export default BetsPage;
+);
+}
+export default Bet;
