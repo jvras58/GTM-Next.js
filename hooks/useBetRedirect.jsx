@@ -1,31 +1,27 @@
-import { useRouter } from "next/navigation";
-
 export const useBetRedirect = () => {
-const router = useRouter();
+const handleRedirect = async (iframeUrl) => {
+    console.log("Chamando API do Puppeteer para URL:", iframeUrl);
 
-const handleRedirect = async (name, iframeUrl) => {
-// Primeiro, fazer uma requisição para a rota de API que usa o Puppeteer
-try {
+    try {
     const response = await fetch("/api/open-bet", {
-    method: "POST",
-    headers: {
+        method: "POST",
+        headers: {
         "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ url: iframeUrl }),
+        },
+        body: JSON.stringify({ url: iframeUrl }),
     });
 
     const data = await response.json();
+    console.log("Resposta da API do Puppeteer:", data);
 
     if (data.success) {
-    // Se o Puppeteer rodar com sucesso, redireciona para a página com o iframe
-    const slug = name.toLowerCase().replace(/\s+/g, '-');
-    router.push(`/bets/${slug}`);
+        console.log("Puppeteer rodou com sucesso.");
     } else {
-    console.error("Erro ao abrir o site no Puppeteer:", data.error);
+        console.error("Erro ao abrir o site no Puppeteer:", data.error);
     }
-} catch (error) {
-    console.error("Erro na requisição à API:", error);
-}
+    } catch (error) {
+    console.error("Erro ao chamar a API do Puppeteer:", error);
+    }
 };
 
 return { handleRedirect };

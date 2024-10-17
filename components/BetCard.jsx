@@ -1,20 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useBetRedirect } from "@/hooks/useBetRedirect";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-const BetCard = ({ name, image }) => {
-const router = useRouter();
+const BetCard = ({ name, image, iframeUrl }) => {
+const { handleRedirect } = useBetRedirect();
+const [isLoading, setIsLoading] = useState(false);
 
-const generateSlug = (name) => {
-return name.toLowerCase().replace(/\s+/g, '-');
-};
-
-const handleRedirect = () => {
-const slug = generateSlug(name);
-router.push(`/bets/${slug}`);
+const onClick = async () => {
+setIsLoading(true); 
+await handleRedirect(iframeUrl);
+setIsLoading(false);
 };
 
 return (
@@ -33,7 +32,9 @@ return (
     />
     </CardContent>
     <CardFooter>
-    <Button onClick={handleRedirect}>Acessar</Button>
+    <Button onClick={onClick} disabled={isLoading}>
+        {isLoading ? "Carregando..." : "Acessar"}
+    </Button>
     </CardFooter>
 </Card>
 );
