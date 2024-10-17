@@ -1,6 +1,6 @@
 "use client";
 
-import BetCard from "@/components/BetIframe";
+import BetCard from "@/components/BetCard";
 import photo from "@/public/assets/photo.png";
 
 const Bet = () => {
