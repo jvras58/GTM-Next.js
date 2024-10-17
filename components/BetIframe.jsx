@@ -8,13 +8,12 @@ import Image from "next/image";
 const BetCard = ({ name, image }) => {
 const router = useRouter();
 
-// Função para converter o nome da aposta em uma URL amigável
 const generateSlug = (name) => {
-return name.toLowerCase().replace(/\s+/g, '-'); // Substitui espaços por hífens
+return name.toLowerCase().replace(/\s+/g, '-');
 };
 
 const handleRedirect = () => {
-const slug = generateSlug(name); // Gera o "slug" a partir do nome da aposta
+const slug = generateSlug(name);
 router.push(`/bets/${slug}`);
 };
 

@@ -20,10 +20,8 @@ iframeUrl: "https://www.jogodeouro.com",
 const BetIframePage = ({ params }) => {
 const { bet } = params;
 
-// Mapeia o slug da rota para os dados da aposta
 const selectedBet = betsData[bet.toLowerCase()];
 
-// Se a aposta não for encontrada, retorna um 404
 if (!selectedBet) {
 return notFound();
 }
