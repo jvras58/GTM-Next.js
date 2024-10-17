@@ -3,6 +3,7 @@ const { exec } = require("child_process");
 const fs = require('fs');
 const path = require('path');
 
+// node pupt-docker.js   true ou node pupt-docker.js
 // Verifica se o argumento "true" foi passado
 const iniciarXvfb = process.argv.includes('true');
 

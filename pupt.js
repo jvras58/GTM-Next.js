@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 
+// Locahost : node pupt.js
 (async () => {
     const browser = await puppeteer.launch({
     ignoreDefaultArgs: ['--enable-automation'],
