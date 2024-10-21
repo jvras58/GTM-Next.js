@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { sendGTMEvent } from '@next/third-parties/google'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -13,8 +14,10 @@ return name.toLowerCase().replace(/\s+/g, '-');
 };
 
 const handleRedirect = () => {
-const slug = generateSlug(name);
-router.push(`/bets/${slug}`);
+    // send GTM event when button is clicked (o valor enviado no evento GTM é o nome da bet clicada)
+    sendGTMEvent({ event: 'buttonClicked', value: name });
+    const slug = generateSlug(name);
+    router.push(`/bets/${slug}`);
 };
 
 return (
@@ -33,7 +36,7 @@ return (
     />
     </CardContent>
     <CardFooter>
-    <Button onClick={handleRedirect}>Acessar</Button>
+    <Button onClick={handleRedirect} >Acessar</Button>
     </CardFooter>
 </Card>
 );

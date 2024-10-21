@@ -1,3 +1,4 @@
+import { GoogleTagManager } from '@next/third-parties/google'
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -21,6 +22,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <GoogleTagManager gtmId="GTM-5FHFMM5L" />
       <body className={jetbrains_Mono.variable}>
         <Header/>
         <StairTransition/>
