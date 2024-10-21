@@ -14,6 +14,12 @@ return name.toLowerCase().replace(/\s+/g, '-');
 };
 
 const handleRedirect = () => {
+    // send dataLayer event when card is clicked (o valor enviado no evento dataLayer é o nome da bet
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        'event': 'cardClicked',
+        'cardName': name
+    });
     // send GTM event when button is clicked (o valor enviado no evento GTM é o nome da bet clicada)
     sendGTMEvent({ event: 'buttonClicked', value: name });
     const slug = generateSlug(name);
@@ -36,7 +42,7 @@ return (
     />
     </CardContent>
     <CardFooter>
-    <Button onClick={handleRedirect} >Acessar</Button>
+    <Button id='Acessar-click' onClick={handleRedirect} >Acessar</Button>
     </CardFooter>
 </Card>
 );
