@@ -6,7 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-const BetCard = ({ name, image }) => {
+const BetCard = ({ name, image, value }) => {
 const router = useRouter();
 
 const generateSlug = (name) => {
@@ -14,13 +14,13 @@ return name.toLowerCase().replace(/\s+/g, '-');
 };
 
 const handleRedirect = () => {
-    // send GTM event when button is clicked (o valor enviado é o evento GTM é o nome da bet clicada)
-    sendGTMEvent({ event: 'buttonClicked', value: name });
     const slug = generateSlug(name);
     router.push(`/bets/${slug}`);
 };
 
 return (
+<div className="container mx-auto mt-4">
+<span className="amount input-class bg-gray-500">Valor {value}</span>
 <Card className="max-w-sm mx-auto mt-4">
     <CardHeader>
     <CardTitle>{name}</CardTitle>
@@ -39,6 +39,7 @@ return (
     <Button id='Acessar-click' onClick={handleRedirect} >Acessar</Button>
     </CardFooter>
 </Card>
+</div>
 );
 };
 
