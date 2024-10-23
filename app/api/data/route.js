@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+// router: /api/data
 export async function POST(req) {
 try {
 const data = await req.json();

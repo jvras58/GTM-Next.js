@@ -14,7 +14,7 @@ return name.toLowerCase().replace(/\s+/g, '-');
 };
 
 const handleRedirect = () => {
-    // send GTM event when button is clicked (o valor enviado no evento GTM é o nome da bet clicada)
+    // send GTM event when button is clicked (o valor enviado é o evento GTM é o nome da bet clicada)
     sendGTMEvent({ event: 'buttonClicked', value: name });
     const slug = generateSlug(name);
     router.push(`/bets/${slug}`);
