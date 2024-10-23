@@ -10,16 +10,19 @@ return (
     name="Betinha"
     image={photo.src}
     iframeUrl="https://www.betinha.com"
+    value={1}
     />
     <BetCard
     name="Estrela - Bet"
     image={photo.src}
     iframeUrl="https://www.estrelabet.com"
+    value={2}
     />
     <BetCard
     name="Jogo de Ouro"
     image={photo.src}
     iframeUrl="https://www.jogodeouro.com"
+    value={3}
     />
 </div>
 );
