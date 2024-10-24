@@ -214,5 +214,7 @@ Tudo foi implementado diretamente no **GTM**, sem necessidade de modificar o có
 - [Documentação do Next.js](https://nextjs.org/docs/app/building-your-application/optimizing/third-party-libraries)
 - [Configuração do GTM (Vídeo)](https://www.youtube.com/watch?v=R5P0hWixp-8)
 - [Documentação GTM](https://developers.google.com/tag-platform/gtagjs?hl=pt-br)
+- [Fluxo Resumido GTM](docs/FLUXO-RESUMIDO.MD)
 - [Captura de dados com DataLayer](https://www.mkt4edu.com/blog/o-que-e-data-layer-e-como-usa-lo-no-google-tag-manager)
+- [Documentação criar Variaveis GTM](https://metricasboss.com.br/artigos/como-funciona-as-variaveis-no-google-tag-manager)
 - [Documentação criar eventos GTM](https://www.cayman.com.br/postagem/59/como-criar-eventos-personalizados-no-google-tag-manager)
