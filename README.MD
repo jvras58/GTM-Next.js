@@ -79,10 +79,10 @@ Agora vamos criar uma tag que vai enviar as informações do clique para a sua A
 <script>
 var data = {
   event: 'click',
-  elementId: '{{Click ID}}',   // Usando o ID do botão
-  element: '{{Click Element}}', // Elemento HTMLButtonElement
-  elementText: '{{Click Text}}',  // Capturando o texto "Acessar"
-  url: '{{Page URL}}',  // A URL da página onde o clique aconteceu
+  elementId: '{{Click ID}}',
+  element: '{{Click Element}}', 
+  elementText: '{{Click Text}}',  
+  url: '{{Page URL}}',  
   timestamp: Date.now()
 };
 
@@ -118,8 +118,7 @@ Vamos agora capturar o valor do campo (`<span>`) quando o botão "Acessar" for c
 
 ```javascript
 function() {
-  var spanElement = document.getElementsByClassName('amount'); // o span esta configurado desta maneira no BetCard e esse script ta configurado para pegar o terceiro
-  console.log(spanElement)
+  var spanElement = document.getElementsByClassName('amount');
   return spanElement ? spanElement[2].textContent: '';
 }
 

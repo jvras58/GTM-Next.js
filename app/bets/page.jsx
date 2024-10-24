@@ -11,18 +11,24 @@ return (
     image={photo.src}
     iframeUrl="https://www.betinha.com"
     value={1}
+    betAmount="1.00" 
+    currency="BRL" 
     />
     <BetCard
     name="Estrela - Bet"
     image={photo.src}
     iframeUrl="https://www.estrelabet.com"
     value={2}
+    betAmount="5.00" 
+    currency="L" 
     />
     <BetCard
     name="Jogo de Ouro"
     image={photo.src}
     iframeUrl="https://www.jogodeouro.com"
     value={3}
+    betAmount="3.00" 
+    currency="B"
     />
 </div>
 );
