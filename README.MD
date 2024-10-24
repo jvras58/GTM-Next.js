@@ -33,26 +33,161 @@ Se alguns tipos de eventos nos acionadores das tags não aparecerem, é necessá
 
 ![Variáveis de Tags](docs/variaveis-tag.png)
 
-### Monitoramento de Cliques
 
-Inicialmente, é importante destacar que estamos usando o [`dataLayer`] para capturar e transportar esses dados para nossa API. Criamos uma tag chamada `Get-ButtonClicked-event`, onde inserimos um script JavaScript que envia os dados capturados pelo evento criado pelo [`sendGTMEvent`] (uma funcionalidade fornecida pelo Next.js e sua integração com o GTM). Normalmente, teríamos que fazer algo como:
+## *Configuração de algumas TAGs feitas para teste**
 
-```js
-window.dataLayer.push({
-    'event': 'cardClicked',
-    'cardName': name
-});
+### **Parte 1: Configuração do Envio de Eventos de Clique para API**
+
+#### **1.1. Criação de Variáveis Padrão de Clique no GTM**
+
+No GTM, para capturar informações sobre o clique (elemento clicado, URL, etc.), devemos habilitar as **variáveis automáticas** de clique.
+
+1. Acesse o **Google Tag Manager**.
+2. Vá até o menu lateral e clique em **Variáveis**.
+3. Na seção de **Variáveis Incorporadas**, clique em **Configurar**.
+4. Habilite as seguintes variáveis de clique:
+   - **Click Element** (Elemento clicado)
+   - **Click ID** (ID do elemento clicado)
+   - **Click Classes** (Classes do elemento clicado)
+   - **Click Text** (Texto do botão ou elemento clicado)
+   - **Page URL** (URL da página onde o clique ocorreu)
+
+Essas variáveis serão utilizadas para capturar detalhes do clique.
+
+#### **1.2. Criação do Acionador de Clique no Botão**
+
+Agora, configuraremos o **acionador de clique** que será ativado quando o botão "Acessar" for clicado.
+
+1. No menu do GTM, vá para **Acionadores**.
+2. Clique em **Novo** para criar um acionador.
+3. Selecione **Tipo de Acionador: Clique - Todos os Elementos**.
+4. Em **Este Acionador será acionado em**, escolha **Alguns Cliques**.
+5. Defina a condição para o acionamento:
+   - **Click ID** igual a `Acessar-click` (esse é o ID do botão que está configurado como id do button no next.js).
+6. Salve o acionador com o nome **Clique em Botão Acessar**.
+
+#### **1.3. Criação da Tag para Enviar Dados de Clique para a API**
+
+Agora vamos criar uma tag que vai enviar as informações do clique para a sua API.
+
+1. Vá para **Tags** no menu do GTM.
+2. Clique em **Nova** para criar uma nova tag.
+3. Escolha o tipo **HTML Personalizado**.
+4. No campo de código da tag, insira o seguinte código JavaScript:
+
+```javascript
+<script>
+var data = {
+  event: 'click',
+  elementId: '{{Click ID}}',   // Usando o ID do botão
+  element: '{{Click Element}}', // Elemento HTMLButtonElement
+  elementText: '{{Click Text}}',  // Capturando o texto "Acessar"
+  url: '{{Page URL}}',  // A URL da página onde o clique aconteceu
+  timestamp: Date.now()
+};
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'http://localhost:3000/api/data', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.send(JSON.stringify(data));
+</script>
 ```
 
-Esse código seria executado no clique do card (colocamos no [`handleRedirect`])
+5. Adicione o **acionador** que criamos anteriormente (**Clique em Botão Acessar**).
+6. Salve a tag com o nome **Tag de Envio para API - clickAcessar**.
 
-Com essa configuração, conseguimos utilizar o GTM para monitorar cliques usando o [`dataLayer`]:
+#### **1.4. Testar a Configuração de Clique**
 
-![Tag Get-ButtonClicked-event](docs/tela-config-tag.png)
+1. No GTM, clique em **Visualizar** para ativar o **modo de pré-visualização**.
+2. Vá até a página do seu site e clique no botão "Acessar".
+3. No painel de pré-visualização, verifique se o evento está sendo disparado e se as informações do clique (elemento, URL, etc.) estão sendo enviadas corretamente.
 
-![Configuração dentro da tag](docs/config-dentro-da-tag-click.png)
+---
 
-![Configuração do acionador da tag](docs/action-tag-click.png)
+### **Parte 2: Capturar o Valor de um Campo `<span>` e Enviar via POST**
+
+#### **2.1. Criação de Variável Personalizada para Capturar o Valor do span**
+
+Vamos agora capturar o valor do campo (`<span>`) quando o botão "Acessar" for clicado. Para isso, criaremos uma **variável JavaScript personalizada** que vai acessar o valor do campo.
+
+1. No menu do GTM, vá para **Variáveis**.
+2. Clique em **Nova** para criar uma nova variável.
+3. Selecione o tipo **JavaScript Personalizado**.
+4. Nomeie a variável como **Valor span**.
+5. No campo de código da variável, insira o seguinte JavaScript:
+
+```javascript
+function() {
+  var spanElement = document.getElementsByClassName('amount'); // o span esta configurado desta maneira no BetCard e esse script ta configurado para pegar o terceiro
+  console.log(spanElement)
+  return spanElement ? spanElement[2].textContent: '';
+}
+
+```
+
+6. Salve a variável.
+
+#### **2.2. Criação de Tag para Enviar o Valor do span para o Data Layer**
+
+Agora criaremos uma tag para capturar o valor do input e enviá-lo para o **Data Layer** do GTM.
+
+1. Vá até **Tags** e clique em **Nova**.
+2. Escolha **HTML Personalizado** como o tipo de tag.
+3. No campo de código, insira o seguinte JavaScript:
+
+```javascript
+<script>
+  var spanValue = '{{Valor span}}';
+  dataLayer.push({
+    event: 'spanCapture',
+    spanValue: spanValue,
+    timestamp: Date.now()
+  });
+</script>
+
+```
+
+4. Adicione o **mesmo acionador** que criamos para o botão "Acessar" (**Acionador - Clique no Botão Acessar**).
+5. Salve a tag com o nome **SpanValue - Tag**.
+
+#### **2.3. Testar o Valor do span no GTM**
+
+1. No GTM, vá novamente para **Visualizar**.
+2. No seu site, preencha o campo de entrada e clique no botão "Acessar".
+3. Verifique no painel de pré-visualização se o valor do campo de entrada foi enviado corretamente para o **Data Layer**.
+
+#### **2.4. Criar Tag para Enviar o Valor do span para a API via POST**
+
+OBS: Eu adicionei a parte de enviar para api junto com a **TAG: Tag de Envio para API - clickAcessar**
+
+Agora que o valor que está dentro span está sendo capturado, vamos enviar esse dado para a sua API usando uma requisição **POST**.
+
+1. No GTM, crie outra **tag** de **HTML Personalizado**.
+2. Insira o seguinte código JavaScript na tag:
+
+```javascript
+<script>
+  var spanValue = '{{Valor do span}}';  // Captura o valor de dentro do span
+
+  var data = {
+    spanValue: spanValue,  // Valor do span
+    timestamp: Date.now()
+  };
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'http://localhost:3000/api/data', true); 
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.send(JSON.stringify(data));
+</script>
+```
+
+3. Adicione o **acionador** do botão "Acessar" para ativar essa tag. (**Acionador - Clique no Botão Acessar**)
+4. Salve a tag com o nome **Tag - Enviar Valor do Span para API**.
+
+#### **2.5. Testar o Envio do span para a API**
+
+1. No modo de **pré-visualização**, preencha o campo de entrada e clique em "Acessar".
+2. Verifique se a requisição **POST** está sendo feita para a API com o valor capturado do campo.
 
 
 #### Playground do GTM
@@ -61,9 +196,18 @@ O GTM também oferece um playground onde, a partir da tag criada, é possível t
 
 ![Playground do GTM](docs/playground-gtm.png)
 
-### Conclusão
+
+### **Conclusão**
 
 Este guia fornece uma visão geral de como configurar e utilizar o Google Tag Manager em um projeto Next.js para telemetria e usabilidade. Siga os links fornecidos para obter mais detalhes e tutoriais.
+
+Com essas etapas, você agora tem duas funcionalidades configuradas no **Google Tag Manager**:
+
+1. **Captura de eventos de clique** no botão "Acessar" e envio dos detalhes do clique (elemento, URL, etc.) para a API.
+2. **Captura do valor do campo span (`span`)** ao clicar no botão e envio desse valor para a API.
+
+Tudo foi implementado diretamente no **GTM**, sem necessidade de modificar o código do site, o que facilita a manutenção e a implementação de futuras mudanças.
+
 
 ### Links Úteis
 
