@@ -1,41 +1,65 @@
 "use client";
 
-import { notFound } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../../../firebaseConfig";
 
-const betsData = {
-"betinha": {
-name: "Betinha",
-iframeUrl: "https://www.betinha.com",
-},
-"estrela-bet": {
-name: "Estrela - Bet",
-iframeUrl: "https://www.estrelabet.com",
-},
-"jogo-de-ouro": {
-name: "Jogo de Ouro",
-iframeUrl: "https://www.jogodeouro.com",
-},
+const BetDashboard = () => {
+const params = useParams();
+const { bet } = params;
+const [afilhiadoData, setAfilhiadoData] = useState(null);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+
+useEffect(() => {
+const fetchAfilhiadoData = async () => {
+    try {
+    const afilhiadoQuery = query(
+        collection(db, "cadastro"),
+        where("afilhiado", "==", bet)
+    );
+    const querySnapshot = await getDocs(afilhiadoQuery);
+
+    if (!querySnapshot.empty) {
+
+        setAfilhiadoData(querySnapshot.docs[0].data());
+    } else {
+
+        setError(`Nenhum documento encontrado para o afilhiado: ${bet}`);
+    }
+    } catch (err) {
+    console.error("Erro ao buscar dados do afilhiado:", err);
+    setError(`Erro ao buscar dados do afilhiado: ${err.message}`);
+    } finally {
+    setLoading(false);
+    }
 };
 
-const BetIframePage = ({ params }) => {
-const { bet } = params;
+fetchAfilhiadoData();
+}, [bet]);
 
-const selectedBet = betsData[bet.toLowerCase()];
+if (loading) {
+return <div>Carregando...</div>;
+}
 
-if (!selectedBet) {
-return notFound();
+if (error) {
+return <div className="text-red-500">Erro: {error}</div>;
+}
+
+if (!afilhiadoData) {
+return <div>Dados do afilhiado não encontrados.</div>;
 }
 
 return (
-<div className="w-full h-screen flex justify-center items-center">
-    <iframe
-    src={selectedBet.iframeUrl}
-    title={selectedBet.name}
-    className="w-full h-full border-none"
-    loading="lazy"
-    />
+<div className="p-6">
+    <h1 className="text-2xl font-bold">{afilhiadoData.nome} Dashboard</h1>
+    <p className="mt-2 text-gray-700">CPF: {afilhiadoData.cpf}</p>
+    <p className="mt-1 text-gray-700">Afilhiado: {afilhiadoData.afilhiado}</p>
+    <p className="mt-1 text-gray-700">Outros dados: {afilhiadoData.testing}</p>
+    {/* Adicione mais informações conforme necessário */}
 </div>
 );
 };
 
-export default BetIframePage;
+export default BetDashboard;
