@@ -7,7 +7,7 @@ import { db } from "../../../firebaseConfig";
 
 const BetDashboard = () => {
 const params = useParams();
-const { bet } = params;
+const { afiliado } = params;
 const [afilhiadoData, setAfilhiadoData] = useState(null);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
@@ -15,18 +15,20 @@ const [error, setError] = useState(null);
 useEffect(() => {
 const fetchAfilhiadoData = async () => {
     try {
+    console.log(`Buscando dados para o afilhiado: ${afiliado}`);
+    if (!afiliado) {
+        throw new Error("O parâmetro 'afiliado' está indefinido");
+    }
     const afilhiadoQuery = query(
         collection(db, "cadastro"),
-        where("affiliate", "==", bet)
+        where("affiliate", "==", afiliado)
     );
     const querySnapshot = await getDocs(afilhiadoQuery);
 
     if (!querySnapshot.empty) {
-
         setAfilhiadoData(querySnapshot.docs[0].data());
     } else {
-
-        setError(`Nenhum documento encontrado para o afilhiado: ${bet}`);
+        setError(`Nenhum documento encontrado para o afilhiado: ${afiliado}`);
     }
     } catch (err) {
     console.error("Erro ao buscar dados do afilhiado:", err);
@@ -37,7 +39,7 @@ const fetchAfilhiadoData = async () => {
 };
 
 fetchAfilhiadoData();
-}, [bet]);
+}, [afiliado]);
 
 if (loading) {
 return <div>Carregando...</div>;

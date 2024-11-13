@@ -9,7 +9,12 @@ const BetCard = ({ name, image, dbParam }) => {
 const router = useRouter();
 
 const handleRedirect = () => {
-router.push(`/bets/${dbParam}`);
+if (dbParam) {
+    console.log(`Redirecionando para /afiliados/${dbParam}`);
+    router.push(`/afiliados/${dbParam}`);
+} else {
+    console.error("dbParam está indefinido");
+}
 };
 
 return (
