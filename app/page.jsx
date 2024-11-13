@@ -1,5 +1,4 @@
 import Photo from "@/components/Photo";
-import Rede from "@/components/Rede";
 import Stats from "@/components/Stats";
 
 const Home = () => {
@@ -10,10 +9,10 @@ const Home = () => {
           {/* texto */}
           <div className="text-center xl:text-left order-2 xl:order-none">
             <h1 className="h1 mb-6">
-              Bem-vindo ao site das bets!
+              Seja um afiliado!
             </h1>
             <p className="max-w-[500px] mb-9 text-white/80">
-              Aqui você encontrará informações sobre apostas e muito mais.
+              Seja um de nossos afiliados e cresça com as melhores condições de remuneração do mercado. Realize seu cadastro agora mesmo.
             </p>
             {/* botão e redes Rede */}
             <div className="flex flex-col xl:flex-row items-center gap-8">

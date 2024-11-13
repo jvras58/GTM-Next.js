@@ -3,7 +3,7 @@
 import CountUp from "react-countup";
 
 const stats = [
-    { num: 3, text: "Anos de Existencia" },
+    { num: 3, text: "Anos de Mercado" },
     { num: 5, text: "Projetos Incluidos" },
     { num: 5, text: "Tecnologias" },
 ];

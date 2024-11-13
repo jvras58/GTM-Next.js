@@ -11,7 +11,7 @@ if (loading) {
 return <div>Carregando...</div>;
 }
 
-const afiliados = data.filter(item => item.afiliado);
+const afiliados = data.filter(item => item.affiliate);
 
 if (afiliados.length === 0) {
 return <div>Nenhum afilhado encontrado no banco de dados.</div>;
@@ -22,9 +22,9 @@ return (
     {afiliados.map((afiliado) => (
     <BetCard
         key={afiliado.id}
-        name={`${afiliado.afiliado} Dashboard`}
+        name={`${afiliado.affiliate} Dashboard`}
         image={photo.src}
-        dbParam={afiliado.afiliado}
+        dbParam={afiliado.affiliate}
     />
     ))}
 </div>

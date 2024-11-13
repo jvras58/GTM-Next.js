@@ -17,7 +17,7 @@ const fetchAfilhiadoData = async () => {
     try {
     const afilhiadoQuery = query(
         collection(db, "cadastro"),
-        where("afilhiado", "==", bet)
+        where("affiliate", "==", bet)
     );
     const querySnapshot = await getDocs(afilhiadoQuery);
 
@@ -53,11 +53,9 @@ return <div>Dados do afilhiado não encontrados.</div>;
 
 return (
 <div className="p-6">
-    <h1 className="text-2xl font-bold">{afilhiadoData.nome} Dashboard</h1>
-    <p className="mt-2 text-gray-700">CPF: {afilhiadoData.cpf}</p>
-    <p className="mt-1 text-gray-700">Afilhiado: {afilhiadoData.afilhiado}</p>
-    <p className="mt-1 text-gray-700">Outros dados: {afilhiadoData.testing}</p>
-    {/* Adicione mais informações conforme necessário */}
+    <h1 className="text-2xl font-bold">{afilhiadoData.name} Dashboard</h1>
+    <p className="mt-1 text-gray-700">Afilhiação: {afilhiadoData.affiliate}</p>
+    <p className="mt-1 text-gray-700">Email: {afilhiadoData.email}</p>
 </div>
 );
 };

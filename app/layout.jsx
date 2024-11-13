@@ -15,8 +15,8 @@ const jetbrains_Mono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: "bets@dev",
-  description: "teste",
+  title: "Betinha@dev",
+  description: "Betinha",
 };
 
 export default function RootLayout({ children }) {
