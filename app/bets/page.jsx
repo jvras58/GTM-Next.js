@@ -5,7 +5,7 @@ import photo from "@/public/assets/photo.png";
 import useFetchData from "@/hooks/useFetchData";
 
 const Bet = () => {
-const { data, loading } = useFetchData("cadrastro");
+const { data, loading } = useFetchData("cadastro");
 
 if (loading) {
 return <div>Carregando...</div>;
