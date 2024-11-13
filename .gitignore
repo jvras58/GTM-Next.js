@@ -16,6 +16,9 @@
 # production
 /build
 
+# Ignorar o diretório output
+/output
+
 # misc
 .DS_Store
 *.pem

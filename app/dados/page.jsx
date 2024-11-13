@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import useAddData from "@/hooks/addcollection";
-import cadastro from "../../cadastro.json";
-import deposito from "../../deposito.json";
+import cadastro from "../../output/cadastro.json";
+import deposito from "../../output/deposito.json";
 
 const Bet = () => {
-const { cadastroadd } = useAddData("cadastro");
-const { depositoadd } = useAddData("deposito");
+const { addData: cadastroadd } = useAddData("cadastro");
+const { addData: depositoadd } = useAddData("deposito");
 const [isDataAdded, setIsDataAdded] = useState(false);
 
 const handleAddData = () => {

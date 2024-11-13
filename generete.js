@@ -1,6 +1,7 @@
-const { writeFileSync } = require('fs');
+const { writeFileSync, existsSync, mkdirSync } = require('fs');
 const { faker } = require('@faker-js/faker');
 const { Parser } = require('json2csv');
+const path = require('path');
 
 const { date, internet, person, phone, datatype, lorem } = faker;
 const { v4: uuidv4 } = require('uuid');
@@ -52,18 +53,21 @@ function generateMultipleJson(n) {
     return jsonArray;
 }
 
-// Gerar 10 JSONs
+const outputDir = path.join(__dirname, 'output');
+
+if (!existsSync(outputDir)) {
+    mkdirSync(outputDir);
+}
+
 const jsonList = generateMultipleJson(5);
 
-// Salvar em um arquivo JSON
-writeFileSync('cadastro.json', JSON.stringify(jsonList, null, 4));
-writeFileSync('deposito.json', JSON.stringify(jsonList, null, 4));
+writeFileSync(path.join(outputDir, 'cadastro.json'), JSON.stringify(jsonList, null, 4));
+writeFileSync(path.join(outputDir, 'deposito.json'), JSON.stringify(jsonList, null, 4));
 
-// Converter para CSV e salvar em um arquivo
 const json2csvParser = new Parser();
 const csv = json2csvParser.parse(jsonList);
 
-writeFileSync('cadastro.csv', csv);
-writeFileSync('deposito.csv', csv);
+writeFileSync(path.join(outputDir, 'cadastro.csv'), csv);
+writeFileSync(path.join(outputDir, 'deposito.csv'), csv);
 
 console.log("JSONs e CSVs gerados e salvos com sucesso!");
